@@ -65,7 +65,7 @@ export function SiteHeader({
         sticky && "border-hairline sticky top-0 z-40 border-b",
       )}
     >
-      <nav className="mx-auto flex h-[var(--header-h)] w-full max-w-[1400px] items-center gap-4 px-6 lg:px-14">
+      <nav className="shell max-w-page flex h-[var(--header-h)] items-center gap-4">
         <Logo className="flex-none" />
 
         {variant === "app" ? (

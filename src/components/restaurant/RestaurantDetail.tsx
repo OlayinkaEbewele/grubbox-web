@@ -72,7 +72,7 @@ export function RestaurantDetail({ restaurant }: { restaurant: Restaurant }) {
     <>
       <SiteHeader variant="app" sticky />
 
-      <div className="mx-auto w-full max-w-[1200px] px-6 pt-4 lg:px-14">
+      <div className="shell max-w-app pt-page-top">
         <Breadcrumbs
           trail={[
             { label: "Home", href: "/" },
@@ -83,7 +83,7 @@ export function RestaurantDetail({ restaurant }: { restaurant: Restaurant }) {
       </div>
 
       {/* Cover ------------------------------------------------------------- */}
-      <header className="mx-auto w-full max-w-[1200px] px-6 lg:px-14">
+      <header className="shell max-w-app">
         <div className="relative h-[280px] overflow-hidden rounded-[32px] shadow-[0_20px_40px_-20px_rgba(0,0,0,0.6)]">
           <Image
             src={restaurant.cover}
@@ -141,7 +141,7 @@ export function RestaurantDetail({ restaurant }: { restaurant: Restaurant }) {
       </header>
 
       {/* Facts ------------------------------------------------------------- */}
-      <div className="mx-auto w-full max-w-[1200px] px-6 pt-5 lg:px-14">
+      <div className="shell max-w-app pt-5">
         <dl className="border-hairline bg-surface grid grid-cols-2 gap-y-5 rounded-3xl border-2 px-7 py-5 md:grid-cols-4 md:gap-y-0">
           {[
             {
@@ -173,7 +173,7 @@ export function RestaurantDetail({ restaurant }: { restaurant: Restaurant }) {
       {/* Category tabs ------------------------------------------------------ */}
       <div
         className={cn(
-          "bg-canvas sticky z-20 mx-auto w-full max-w-[1200px] px-6 pt-4 lg:px-14",
+          "bg-canvas shell max-w-app sticky z-20 pt-4",
           // Sits directly under the sticky header rather than at the viewport top.
           // +1px for the sticky header's bottom hairline.
           "top-[calc(var(--header-h)+1px)]",
@@ -210,12 +210,12 @@ export function RestaurantDetail({ restaurant }: { restaurant: Restaurant }) {
       </div>
 
       {/* Menu --------------------------------------------------------------- */}
-      <main className="mx-auto w-full max-w-[1200px] flex-1 px-6 pt-8 pb-35 lg:px-14">
+      <main className="shell max-w-app flex-1 pt-8 pb-cart-clearance">
         <section className="mb-10">
-          <h2 className="font-display text-fg mb-1.5 text-2xl">
+          <h2 className="font-display text-fg mb-2 text-2xl">
             Frequently ordered together
           </h2>
-          <p className="text-fg-subtle mb-4.5 text-[13.5px]">
+          <p className="text-fg-subtle mb-6 text-[13.5px]">
             Popular add-ons from other customers&rsquo; orders
           </p>
 
@@ -265,7 +265,7 @@ export function RestaurantDetail({ restaurant }: { restaurant: Restaurant }) {
               aria-label={section.name}
               className="scroll-mt-40"
             >
-              <h2 className="font-display text-fg mb-4.5 text-[26px]">
+              <h2 className="font-display text-fg mb-6 text-[26px]">
                 {section.name}
               </h2>
               <ul className="flex flex-col gap-5">

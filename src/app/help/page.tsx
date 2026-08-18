@@ -17,13 +17,13 @@ export default function HelpPage() {
       <SiteHeader />
 
       <main className="flex-1">
-        <div className="mx-auto w-full max-w-[1400px] px-6 pt-4 lg:px-14">
+        <div className="shell max-w-page pt-page-top">
           <Breadcrumbs trail={[{ label: "Home", href: "/" }, { label: "Help center" }]} />
         </div>
 
         <HelpCentre />
 
-        <section className="mx-auto w-full max-w-[1400px] px-6 pt-6 pb-18 lg:px-14">
+        <section className="shell max-w-page pt-section pb-page-bottom">
           <div className="bg-surface-alt border-hairline flex flex-wrap items-center justify-between gap-8 rounded-[28px] border-2 px-12 py-10">
             <div>
               <h2 className="font-display mb-2 text-2xl">Still need help?</h2>

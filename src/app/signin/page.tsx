@@ -11,7 +11,7 @@ export default function SignInPage() {
     <>
       <SiteHeader />
 
-      <main className="relative flex flex-1 flex-col items-center justify-center overflow-hidden px-6 py-12">
+      <main className="relative flex flex-1 flex-col items-center justify-center overflow-hidden px-6 py-section">
         <div className="absolute inset-0 z-0">
           <FoodPattern className="h-full w-full" />
         </div>

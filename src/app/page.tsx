@@ -26,7 +26,7 @@ export default async function LandingPage() {
       <SiteHeader showSearch={false} />
 
       {/* Hero ------------------------------------------------------------- */}
-      <section className="relative flex min-h-[640px] flex-1 items-center overflow-hidden px-6 py-15 lg:px-14">
+      <section className="relative flex min-h-[640px] flex-1 items-center overflow-hidden py-section">
         <div className="absolute inset-0 z-0">
           <Image
             src={HERO_IMAGE}
@@ -39,25 +39,27 @@ export default async function LandingPage() {
           <div className="absolute inset-0 bg-[linear-gradient(100deg,rgba(23,23,27,0.94)_0%,rgba(23,23,27,0.78)_38%,rgba(23,23,27,0.3)_65%,rgba(23,23,27,0)_85%)]" />
         </div>
 
-        <div className="relative z-10 mr-auto w-full max-w-[640px]">
-          <h1 className="font-display mb-5.5 text-[clamp(2.25rem,6vw,3.625rem)] leading-[1.08] text-white">
-            Your favorite food,
-            <br />
-            delivered with a smile.
-          </h1>
-          <p className="text-fg-muted mb-8 max-w-[460px] text-lg leading-relaxed">
-            From jollof rice to shawarma, order from the best local spots near you
-            and get it delivered hot, fast, and fresh.
-          </p>
+        <div className="shell max-w-page relative z-10">
+          <div className="mr-auto w-full max-w-[640px]">
+            <h1 className="font-display mb-5.5 text-[clamp(2.25rem,6vw,3.625rem)] leading-[1.08] text-white">
+              Your favorite food,
+              <br />
+              delivered with a smile.
+            </h1>
+            <p className="text-fg-muted mb-8 max-w-[460px] text-lg leading-relaxed">
+              From jollof rice to shawarma, order from the best local spots near
+              you and get it delivered hot, fast, and fresh.
+            </p>
 
-          <LocationButton variant="underline" className="mb-3.5" />
+            <LocationButton variant="underline" className="mb-3.5" />
 
-          <HeroSearch />
+            <HeroSearch />
+          </div>
         </div>
       </section>
 
       {/* Popular near you -------------------------------------------------- */}
-      <section className="mx-auto w-full max-w-[1400px] px-6 pt-22 lg:px-14">
+      <section className="shell max-w-page pt-section">
         <div className="mb-8 flex flex-wrap items-end justify-between gap-3">
           <div>
             <h2 className="font-display text-fg mb-2 text-4xl">Popular near you</h2>
@@ -108,8 +110,8 @@ export default async function LandingPage() {
       </section>
 
       {/* Partner CTAs ------------------------------------------------------ */}
-      <section className="mx-auto w-full max-w-[1400px] px-6 py-24 lg:px-14">
-        <div className="mb-10 text-center">
+      <section className="shell max-w-page pt-section">
+        <div className="mb-8 text-center">
           <h2 className="font-display text-fg mb-2 text-4xl">Become a partner</h2>
           <p className="text-fg-subtle text-base">
             Grow your business or earn on your own schedule
@@ -150,7 +152,7 @@ export default async function LandingPage() {
       </section>
 
       {/* App download ------------------------------------------------------ */}
-      <section className="mx-auto w-full max-w-[1400px] px-6 pb-24 lg:px-14">
+      <section className="shell max-w-page pt-section pb-page-bottom">
         <div className="bg-surface-alt relative flex flex-wrap items-center justify-between gap-12 overflow-hidden rounded-[40px] p-16">
           <div
             aria-hidden="true"

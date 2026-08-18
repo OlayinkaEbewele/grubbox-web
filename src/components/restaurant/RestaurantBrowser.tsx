@@ -107,7 +107,7 @@ export function RestaurantBrowser({ restaurants }: RestaurantBrowserProps) {
 
   return (
     <>
-      <p className="text-fg-subtle mb-4 text-sm">
+      <p className="text-fg-subtle mb-6 text-sm">
         <span className="text-fg font-extrabold tabular-nums">{results.length}</span>{" "}
         {results.length === 1 ? "place" : "places"} delivering to you right now
       </p>

@@ -22,7 +22,7 @@ export default async function BrowseFoodPage({
     <>
       <SiteHeader variant="app" initialQuery={query} />
 
-      <main className="mx-auto w-full max-w-[1400px] flex-1 px-6 pt-4 pb-24 lg:px-14">
+      <main className="shell max-w-page flex-1 pt-page-top pb-page-bottom">
         <Breadcrumbs
           trail={[
             { label: "Home", href: "/" },
@@ -32,7 +32,7 @@ export default async function BrowseFoodPage({
           ]}
         />
 
-        <h1 className="font-display text-fg mb-1 text-[32px]">
+        <h1 className="font-display text-fg mb-2 text-[32px]">
           {query ? `Results for “${query}”` : "Browse food"}
         </h1>
 

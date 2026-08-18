@@ -73,7 +73,7 @@ export function CheckoutFlow({ restaurants }: CheckoutFlowProps) {
 
   if (lines.length === 0 || !restaurant) {
     return (
-      <main className="mx-auto flex w-full max-w-[600px] flex-1 flex-col justify-center px-6 py-24">
+      <main className="mx-auto flex w-full max-w-focus flex-1 flex-col justify-center px-6 py-section">
         <EmptyState
           variant="cart"
           title="Your cart is empty"
@@ -114,7 +114,7 @@ export function CheckoutFlow({ restaurants }: CheckoutFlowProps) {
   return (
     <>
       {/* Fulfillment ------------------------------------------------------- */}
-      <div className="mx-auto flex w-full max-w-[1100px] justify-center px-6 lg:px-14">
+      <div className="shell max-w-app flex justify-center">
         <div
           role="radiogroup"
           aria-label="Fulfillment method"
@@ -148,7 +148,7 @@ export function CheckoutFlow({ restaurants }: CheckoutFlowProps) {
       </div>
 
       {/* Progress ---------------------------------------------------------- */}
-      <ol className="mx-auto flex w-full max-w-[1100px] items-center gap-2 px-6 pt-5 lg:px-14">
+      <ol className="shell max-w-app flex items-center gap-2 pt-5">
         {STEPS.map((label, index) => {
           const done = index < step;
           const current = index === step;
@@ -194,7 +194,7 @@ export function CheckoutFlow({ restaurants }: CheckoutFlowProps) {
         })}
       </ol>
 
-      <div className="mx-auto flex w-full max-w-[1100px] flex-1 flex-col items-start gap-12 px-6 pt-6 pb-24 lg:flex-row lg:px-14">
+      <div className="shell max-w-app flex flex-1 flex-col items-start gap-12 pt-6 pb-page-bottom lg:flex-row">
         <div className="min-w-0 flex-1">
           {/* Step 1 — the order --------------------------------------------- */}
           {step === 0 && (
