@@ -13,7 +13,7 @@ export default async function CheckoutPage() {
     <>
       <SiteHeader variant="app" />
 
-      <div className="mx-auto w-full max-w-[1100px] px-6 pt-4 lg:px-14">
+      <div className="shell max-w-app pt-page-top">
         <Breadcrumbs
           trail={[
             { label: "Home", href: "/" },

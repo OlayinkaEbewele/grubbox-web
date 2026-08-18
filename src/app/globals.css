@@ -57,6 +57,31 @@
   /* Height of the shared site header, so sticky sub-navs can offset by it. */
   --header-h: 76px;
 
+  /* Page width tiers ------------------------------------------------------
+     Every page picks one of these four rather than an ad-hoc pixel value, so
+     the jump from one page to the next reads as a deliberate change of
+     density instead of an accident. Widest to narrowest:
+       page   — full-width marketing and grids; also the header and footer
+       app    — focused flows that still need two columns
+       narrow — single-column lists and reading columns
+       focus  — one card holding the whole screen's attention           */
+  --container-page: 1400px;
+  --container-app: 1200px;
+  --container-narrow: 900px;
+  --container-focus: 560px;
+
+  /* Vertical page rhythm --------------------------------------------------
+     Three steps, used in place of the per-page pt-2/pt-4/pb-18/pb-22/pb-24
+     values these replace. `section` is the gap between major bands within a
+     page; the other two are the seams against the header and the footer. */
+  --spacing-page-top: 1rem;
+  --spacing-page-bottom: 6rem;
+  --spacing-section: 5.5rem;
+
+  /* Deeper page bottom for the restaurant menu, whose floating CartBar would
+     otherwise sit on top of the last row. */
+  --spacing-cart-clearance: 8.75rem;
+
   --font-sans: var(--font-jakarta), ui-sans-serif, system-ui, sans-serif;
   --font-display: var(--font-dm-serif), ui-serif, Georgia, serif;
 
@@ -117,6 +142,23 @@
 }
 
 @layer utilities {
+  /* The page gutter, in one place. Pair it with a width tier — `shell
+     max-w-page`. The padding sits inside the max width, matching how the
+     header is built, so content lands on the same grid the logo does.
+     The `focus` tier opts out: a 560px card only needs the mobile gutter,
+     so those use a plain `px-6` instead. */
+  .shell {
+    margin-inline: auto;
+    width: 100%;
+    padding-inline: calc(var(--spacing) * 6);
+  }
+
+  @media (width >= 64rem) {
+    .shell {
+      padding-inline: calc(var(--spacing) * 14);
+    }
+  }
+
   /* The signature press: a hard offset shadow the element sinks into.
      Hover is gated so touch devices don't latch the state on tap. */
   .press {

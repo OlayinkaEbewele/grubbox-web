@@ -12,7 +12,7 @@ export default function NotFound() {
     <>
       <SiteHeader />
 
-      <main className="mx-auto flex w-full max-w-[520px] flex-1 flex-col items-center justify-center px-6 pt-2 pb-16 text-center">
+      <main className="mx-auto flex w-full max-w-focus flex-1 flex-col items-center justify-center px-6 pt-page-top pb-page-bottom text-center">
         {/* unoptimized: the SVG carries its own CSS keyframes, and Next's
             image pipeline would strip them. Served as-authored instead. */}
         <Image

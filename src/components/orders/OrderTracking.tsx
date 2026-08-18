@@ -40,7 +40,7 @@ export function OrderTracking({ orderId }: { orderId: string }) {
 
   if (!order) {
     return (
-      <main className="mx-auto flex w-full max-w-[560px] flex-1 flex-col items-center justify-center px-6 py-32 text-center">
+      <main className="mx-auto flex w-full max-w-focus flex-1 flex-col items-center justify-center px-6 py-section text-center">
         <h1 className="font-display text-fg mb-3 text-3xl">
           We can&rsquo;t find that order
         </h1>
@@ -64,7 +64,7 @@ export function OrderTracking({ orderId }: { orderId: string }) {
 
   return (
     <>
-      <main className="mx-auto flex w-full max-w-[1200px] flex-1 flex-col items-start gap-8 px-6 pt-2 pb-24 lg:flex-row lg:px-14">
+      <main className="shell max-w-app flex flex-1 flex-col items-start gap-8 pt-page-top pb-page-bottom lg:flex-row">
         {/* Map ------------------------------------------------------------- */}
         <div className="w-full min-w-0 flex-1">
           <div className="bg-surface-alt relative h-[520px] overflow-hidden rounded-[28px]">

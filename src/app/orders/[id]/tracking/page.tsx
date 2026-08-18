@@ -14,7 +14,7 @@ export default async function OrderTrackingPage({
     <>
       <SiteHeader variant="app" />
 
-      <div className="mx-auto w-full max-w-[1000px] px-6 pt-4 lg:px-14">
+      <div className="shell max-w-app pt-page-top">
         <Breadcrumbs
           trail={[
             { label: "Home", href: "/" },

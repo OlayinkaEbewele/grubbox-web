@@ -24,8 +24,8 @@ export function SearchResultsView({ results }: { results: SearchResults }) {
     <div className="flex flex-col gap-12">
       {dishes.length > 0 && (
         <section>
-          <h2 className="font-display text-fg mb-1 text-2xl">Dishes</h2>
-          <p className="text-fg-subtle mb-5 text-sm">
+          <h2 className="font-display text-fg mb-2 text-2xl">Dishes</h2>
+          <p className="text-fg-subtle mb-6 text-sm">
             {dishes.length} {pluralize(dishes.length, "dish", "dishes")} matching
             &ldquo;{query}&rdquo;
           </p>
@@ -40,8 +40,8 @@ export function SearchResultsView({ results }: { results: SearchResults }) {
 
       {restaurants.length > 0 && (
         <section>
-          <h2 className="font-display text-fg mb-1 text-2xl">Restaurants</h2>
-          <p className="text-fg-subtle mb-5 text-sm">
+          <h2 className="font-display text-fg mb-2 text-2xl">Restaurants</h2>
+          <p className="text-fg-subtle mb-6 text-sm">
             {restaurants.length} {pluralize(restaurants.length, "restaurant")}{" "}
             matching &ldquo;{query}&rdquo;
           </p>

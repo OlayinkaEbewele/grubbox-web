@@ -16,7 +16,7 @@ export function OrderConfirmation({ orderId }: { orderId: string }) {
 
   if (!order) {
     return (
-      <main className="mx-auto flex w-full max-w-[560px] flex-1 flex-col items-center justify-center px-6 py-32 text-center">
+      <main className="mx-auto flex w-full max-w-focus flex-1 flex-col items-center justify-center px-6 py-section text-center">
         <h1 className="font-display text-fg mb-3 text-3xl">
           We can&rsquo;t find that order
         </h1>
@@ -34,7 +34,7 @@ export function OrderConfirmation({ orderId }: { orderId: string }) {
 
   return (
     <>
-      <main className="mx-auto flex w-full max-w-[560px] flex-1 flex-col items-center px-6 pt-6 pb-24 text-center">
+      <main className="mx-auto flex w-full max-w-focus flex-1 flex-col items-center px-6 pt-6 pb-page-bottom text-center">
         <div className="pop-in mb-7 flex size-24 items-center justify-center rounded-full bg-[rgba(74,222,128,0.15)]">
           <svg width="48" height="48" viewBox="0 0 24 24" fill="none" aria-hidden="true">
             <path

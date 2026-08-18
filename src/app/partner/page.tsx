@@ -76,11 +76,11 @@ export default function PartnerLandingPage() {
     <>
       <SiteHeader showSearch={false} />
 
-      <div className="mx-auto w-full max-w-[1400px] px-6 pt-4 lg:px-14">
+      <div className="shell max-w-page pt-page-top">
         <Breadcrumbs trail={[{ label: "Home", href: "/" }, { label: "For restaurants" }]} />
       </div>
 
-      <section className="mx-auto flex w-full max-w-[1400px] flex-wrap items-center gap-14 px-6 pt-8 pb-20 lg:px-14">
+      <section className="shell max-w-page flex flex-wrap items-center gap-14 pt-8 pb-section">
         <div className="min-w-[340px] flex-1">
           <p className="text-primary mb-5 inline-flex items-center gap-2 rounded-full bg-[rgba(201,163,255,0.15)] px-4 py-2 text-[13px] font-extrabold">
             For restaurant owners
@@ -115,7 +115,7 @@ export default function PartnerLandingPage() {
         </div>
       </section>
 
-      <section className="mx-auto w-full max-w-[1400px] px-6 pb-20 lg:px-14">
+      <section className="shell max-w-page pb-section">
         <ul className="grid gap-6 md:grid-cols-3">
           {BENEFITS.map((benefit) => (
             <li
@@ -138,7 +138,7 @@ export default function PartnerLandingPage() {
 
       <section
         id="how"
-        className="mx-auto w-full max-w-[1400px] scroll-mt-8 px-6 pb-20 lg:px-14"
+        className="shell max-w-page scroll-mt-8 pb-section"
       >
         <h2 className="font-display mb-10 text-center text-[32px]">
           Get started in three steps
@@ -156,7 +156,7 @@ export default function PartnerLandingPage() {
         </ol>
       </section>
 
-      <section className="mx-auto w-full max-w-[1400px] px-6 pb-20 lg:px-14">
+      <section className="shell max-w-page pb-section">
         <figure className="bg-surface-alt border-hairline mx-auto flex max-w-[760px] flex-wrap items-center gap-7 rounded-[28px] border-2 px-12 py-10">
           <div className="relative size-14 flex-none overflow-hidden rounded-full">
             <Image
@@ -182,7 +182,7 @@ export default function PartnerLandingPage() {
         </figure>
       </section>
 
-      <section className="mx-auto w-full max-w-[1400px] px-6 pb-22 text-center lg:px-14">
+      <section className="shell max-w-page pb-page-bottom text-center">
         <div className="bg-primary text-canvas mx-auto max-w-[760px] rounded-[28px] p-12">
           <h2 className="font-display mb-3.5 text-[30px]">Ready to grow with us?</h2>
           <p className="mb-6 text-[15px] opacity-85">

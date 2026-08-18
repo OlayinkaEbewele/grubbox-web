@@ -14,7 +14,7 @@ export default async function OrderConfirmationPage({
     <>
       <SiteHeader variant="app" />
 
-      <div className="mx-auto w-full max-w-[1000px] px-6 pt-4 lg:px-14">
+      <div className="mx-auto w-full max-w-focus px-6 pt-page-top">
         <Breadcrumbs
           trail={[
             { label: "Home", href: "/" },

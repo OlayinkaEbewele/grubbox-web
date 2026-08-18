@@ -40,8 +40,8 @@ const SOCIALS = [
 
 export function SiteFooter() {
   return (
-    <footer className="bg-surface-2 px-6 pt-14 pb-7 lg:px-14">
-      <div className="border-hairline mx-auto flex max-w-[1400px] flex-wrap justify-between gap-12 border-b pb-9">
+    <footer className="bg-surface-2 pt-14 pb-7">
+      <div className="border-hairline shell max-w-page flex flex-wrap justify-between gap-12 border-b pb-9">
         <div className="max-w-[280px]">
           <div className="mb-4 flex items-center gap-2.5">
             <span className="bg-primary text-canvas flex size-8 flex-none items-center justify-center rounded-[9px]">
@@ -77,7 +77,7 @@ export function SiteFooter() {
         </div>
       </div>
 
-      <div className="mx-auto flex max-w-[1400px] flex-wrap items-center justify-between gap-3 pt-6">
+      <div className="shell max-w-page flex flex-wrap items-center justify-between gap-3 pt-6">
         <span className="text-fg-subtle text-[13px]">
           © 2026 Grub Box. All rights reserved.
         </span>
@@ -100,8 +100,10 @@ export function SiteFooter() {
 /** One-line footer used on the in-app screens. */
 export function AppFooter() {
   return (
-    <footer className="bg-surface-2 text-fg-subtle px-6 py-6 text-center text-[13px] lg:px-14">
-      © 2026 Grub Box. All rights reserved.
+    <footer className="bg-surface-2 py-6">
+      <div className="shell max-w-page text-fg-subtle text-center text-[13px]">
+        © 2026 Grub Box. All rights reserved.
+      </div>
     </footer>
   );
 }

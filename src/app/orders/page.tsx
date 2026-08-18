@@ -18,13 +18,13 @@ export default async function OrdersPage() {
     <>
       <SiteHeader variant="app" />
 
-      <main className="mx-auto w-full max-w-[900px] flex-1 px-6 pt-2 pb-24 lg:px-14">
+      <main className="shell max-w-narrow flex-1 pt-page-top pb-page-bottom">
         <Breadcrumbs
           trail={[{ label: "Home", href: "/" }, { label: "Your orders" }]}
         />
 
-        <h1 className="font-display text-fg mb-1.5 text-[32px]">Your orders</h1>
-        <p className="text-fg-subtle mb-7 text-sm">
+        <h1 className="font-display text-fg mb-2 text-[32px]">Your orders</h1>
+        <p className="text-fg-subtle mb-8 text-sm">
           Track, review, and reorder from your order history
         </p>
 

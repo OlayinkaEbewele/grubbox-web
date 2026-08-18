@@ -13,7 +13,7 @@ export function PartnerApplicationForm() {
 
   if (submitted) {
     return (
-      <div className="mx-auto flex max-w-[460px] flex-1 flex-col items-center justify-center px-6 py-10 text-center">
+      <div className="mx-auto flex w-full max-w-focus flex-1 flex-col items-center justify-center px-6 py-section text-center">
         <span className="pop-in text-success mb-6 flex size-22 items-center justify-center rounded-full bg-[rgba(74,222,128,0.15)]">
           <CheckIcon size={40} />
         </span>
@@ -30,7 +30,7 @@ export function PartnerApplicationForm() {
   }
 
   return (
-    <div className="w-full max-w-[560px] px-6 pt-4 pb-16">
+    <div className="w-full max-w-focus px-6 pt-4 pb-page-bottom">
       <h1 className="font-display mb-2 text-[32px]">Apply to become a partner</h1>
       <p className="text-fg-subtle mb-8 text-[15px]">
         Tell us about your restaurant — takes less than 5 minutes.

@@ -12,7 +12,7 @@ export default function ProfilePage() {
     <>
       <SiteHeader variant="app" />
 
-      <main className="mx-auto w-full max-w-[900px] flex-1 px-6 pt-2 pb-24 lg:px-14">
+      <main className="shell max-w-narrow flex-1 pt-page-top pb-page-bottom">
         <Breadcrumbs
           trail={[{ label: "Home", href: "/" }, { label: "Your profile" }]}
         />

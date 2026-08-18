@@ -76,7 +76,7 @@ export function HelpCentre() {
 
   return (
     <>
-      <section className="mx-auto w-full max-w-[1400px] px-6 pt-12 pb-2 text-center lg:px-14">
+      <section className="shell max-w-page pt-8 text-center">
         <h1 className="font-display mb-3 text-[clamp(2rem,5vw,2.75rem)]">
           How can we help?
         </h1>
@@ -84,7 +84,7 @@ export function HelpCentre() {
           Search our help center or browse a topic below
         </p>
 
-        <div className="border-hairline bg-surface mx-auto flex max-w-[560px] items-center gap-2.5 rounded-full border-2 px-5.5 py-3.5">
+        <div className="border-hairline bg-surface mx-auto flex max-w-focus items-center gap-2.5 rounded-full border-2 px-5.5 py-3.5">
           <SearchIcon className="text-fg-subtle flex-none" />
           <input
             type="search"
@@ -101,7 +101,7 @@ export function HelpCentre() {
       </section>
 
       {/* Categories -------------------------------------------------------- */}
-      <section className="mx-auto w-full max-w-[1400px] px-6 pt-10 pb-2 lg:px-14">
+      <section className="shell max-w-page pt-section">
         <ul className="grid grid-cols-2 gap-4 sm:grid-cols-3 xl:grid-cols-6">
           {HELP_CATEGORIES.map((entry) => {
             const active = entry.id === category;
@@ -143,8 +143,8 @@ export function HelpCentre() {
       </section>
 
       {/* Articles ---------------------------------------------------------- */}
-      <section className="mx-auto w-full max-w-[820px] px-6 pt-12 pb-6 lg:px-14">
-        <h2 className="font-display mb-1 text-[26px]">
+      <section className="shell max-w-narrow pt-section">
+        <h2 className="font-display mb-2 text-[26px]">
           {activeCategory ? activeCategory.label : "Popular questions"}
         </h2>
         <p className="text-fg-subtle mb-6 text-sm">

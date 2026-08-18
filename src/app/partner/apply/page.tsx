@@ -12,7 +12,7 @@ export default function PartnerSignupPage() {
     <>
       <SiteHeader showSearch={false} />
 
-      <div className="mx-auto w-full max-w-[560px] px-6 pt-4">
+      <div className="mx-auto w-full max-w-focus px-6 pt-page-top">
         <Breadcrumbs
           trail={[
             { label: "Home", href: "/" },
