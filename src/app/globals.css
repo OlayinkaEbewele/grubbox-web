@@ -1,0 +1,277 @@
+@import "tailwindcss";
+
+/* Hover variants gated to real pointers. Touch devices synthesise :hover on
+   tap and then latch it until the next tap elsewhere, so an ungated hover
+   style leaves elements stuck mid-transform. */
+@custom-variant hover-fine {
+  @media (hover: hover) and (pointer: fine) {
+    &:hover {
+      @slot;
+    }
+  }
+}
+
+@custom-variant group-hover-fine {
+  @media (hover: hover) and (pointer: fine) {
+    &:is(:where(.group):hover *) {
+      @slot;
+    }
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Grub Box design tokens
+   Sourced from the Claude Design project "Food delivery landing page".
+   Dark canvas, lilac primary, gold accent, neo-brutalist hard shadows.
+--------------------------------------------------------------------------- */
+@theme {
+  /* Surfaces — darkest to lightest */
+  --color-canvas: #17171b;
+  --color-surface: #212127;
+  --color-surface-2: #242429;
+  --color-surface-3: #26262c;
+  --color-surface-alt: #211f22;
+
+  /* Text */
+  --color-fg: #f5f3f7;
+  --color-fg-muted: #c7c3cc;
+  --color-fg-subtle: #8d8993;
+  --color-fg-faint: #a8a3af;
+
+  /* Brand */
+  --color-primary: #c9a3ff;
+  --color-primary-light: #e0c9ff;
+  --color-primary-deep: #7c5aae;
+  --color-accent: #f7c873;
+
+  /* Status */
+  --color-danger: #f87171;
+  --color-success: #4ade80;
+  --color-success-deep: #1f6b37;
+  --color-success-mid: #3c7a50;
+  --color-success-soft: #bfe3c8;
+
+  /* Hairline border used across every card and panel */
+  --color-hairline: rgba(255, 255, 255, 0.08);
+
+  /* Height of the shared site header, so sticky sub-navs can offset by it. */
+  --header-h: 76px;
+
+  --font-sans: var(--font-jakarta), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-dm-serif), ui-serif, Georgia, serif;
+
+  /* Motion. The built-in CSS easings are too weak to read as intentional,
+     so every transition below uses one of these three curves. */
+  --ease-out-strong: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out-strong: cubic-bezier(0.77, 0, 0.175, 1);
+  --ease-drawer: cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background: var(--color-canvas);
+    color: var(--color-fg);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  ::selection {
+    background: var(--color-accent);
+    color: var(--color-canvas);
+  }
+
+  /* Keyboard users get a visible ring everywhere; mouse users never see it. */
+  :focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+
+  /* Thin dark scrollbars for the horizontal rails (menu tabs, card carousels) */
+  .rail {
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-surface-3) transparent;
+  }
+  .rail::-webkit-scrollbar {
+    height: 8px;
+  }
+  .rail::-webkit-scrollbar-thumb {
+    background: var(--color-surface-3);
+    border-radius: 999px;
+  }
+  .rail::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  /* Hide the rail scrollbar where the design shows none */
+  .rail-clean {
+    scrollbar-width: none;
+  }
+  .rail-clean::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+@layer utilities {
+  /* The signature press: a hard offset shadow the element sinks into.
+     Hover is gated so touch devices don't latch the state on tap. */
+  .press {
+    transition:
+      transform 160ms var(--ease-out-strong),
+      box-shadow 160ms var(--ease-out-strong);
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .press:hover {
+      transform: translateY(2px);
+    }
+  }
+
+  .press:active {
+    transform: translateY(3px);
+  }
+
+  /* Cards lift instead of sinking — they're a destination, not a control. */
+  .lift {
+    transition:
+      transform 250ms var(--ease-out-strong),
+      box-shadow 250ms var(--ease-out-strong);
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .lift:hover {
+      transform: translateY(-6px);
+    }
+  }
+
+  .stagger-in {
+    opacity: 0;
+    animation: stagger-in 320ms var(--ease-out-strong) forwards;
+  }
+
+  /* Order confirmation only. This is a once-per-order moment, which is the
+     one place a little overshoot earns its keep. */
+  .pop-in {
+    animation: pop-in 600ms cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  @keyframes pop-in {
+    0% {
+      transform: scale(0.4);
+      opacity: 0;
+    }
+    60% {
+      transform: scale(1.08);
+      opacity: 1;
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
+
+  .draw-check {
+    stroke-dasharray: 26;
+    stroke-dashoffset: 26;
+    animation: draw-check 500ms 300ms ease forwards;
+  }
+
+  @keyframes draw-check {
+    to {
+      stroke-dashoffset: 0;
+    }
+  }
+
+  /* Equaliser bars on an unaccepted order. This one repeats forever, which is
+     normally a smell — here the whole point is that it keeps asking for
+     attention until someone accepts or rejects. */
+  .soundwave > * {
+    animation: soundwave 900ms ease-in-out infinite;
+  }
+  .soundwave > *:nth-child(2) {
+    animation-delay: 150ms;
+  }
+  .soundwave > *:nth-child(3) {
+    animation-delay: 300ms;
+  }
+
+  @keyframes soundwave {
+    0%,
+    100% {
+      transform: scaleY(0.4);
+    }
+    50% {
+      transform: scaleY(1);
+    }
+  }
+
+  /* The rider marker breathes so the map reads as live, not a screenshot. */
+  .rider-pulse {
+    animation: rider-pulse 1600ms ease-in-out infinite;
+  }
+
+  @keyframes rider-pulse {
+    0%,
+    100% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.15);
+    }
+  }
+
+  @keyframes stagger-in {
+    from {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+}
+
+/* Reduced motion means gentler, not absent: opacity still carries meaning,
+   movement does not. */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  .press:hover,
+  .press:active,
+  .lift:hover {
+    transform: none;
+  }
+
+  .stagger-in {
+    opacity: 1;
+    animation: none;
+  }
+
+  /* Keep the check drawing — it carries the "this worked" message — but drop
+     the bounce and the endless pulse. */
+  .pop-in,
+  .rider-pulse {
+    animation: none;
+  }
+
+  /* Hold the bars at full height rather than mid-scale, so the indicator is
+     still legible without the motion. */
+  .soundwave > * {
+    animation: none;
+    transform: scaleY(1);
+  }
+}
