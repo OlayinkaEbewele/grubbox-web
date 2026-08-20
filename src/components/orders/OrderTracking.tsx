@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useState } from "react";
 import { ButtonLink } from "@/components/ui/Button";
+import { OrderTrackingSkeleton } from "@/components/orders/OrderSkeletons";
 import { CheckIcon, ScooterIcon } from "@/components/icons";
 import { DEFAULT_ADDRESS } from "@/lib/data";
 import { useOrder, useOrdersHydrated } from "@/lib/orders";
@@ -36,7 +37,13 @@ export function OrderTracking({ orderId }: { orderId: string }) {
   const hydrated = useOrdersHydrated();
   const [view, setView] = useState<MapView>("route");
 
-  if (!hydrated) return <div className="min-h-[60vh]" />;
+  if (!hydrated) {
+    return (
+      <div className="shell max-w-app pt-page-top pb-page-bottom">
+        <OrderTrackingSkeleton />
+      </div>
+    );
+  }
 
   if (!order) {
     return (

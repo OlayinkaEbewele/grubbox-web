@@ -2,16 +2,11 @@ import Image from "next/image";
 import Link from "next/link";
 import { ButtonLink } from "@/components/ui/Button";
 import { HeroSearch } from "@/components/marketing/HeroSearch";
+import { AppStoreButtons } from "@/components/marketing/AppStoreButtons";
 import { LocationButton } from "@/components/LocationButton";
 import { SiteHeader } from "@/components/layout/SiteHeader";
 import { SiteFooter } from "@/components/layout/SiteFooter";
-import {
-  AppleIcon,
-  ClockIcon,
-  PlayStoreIcon,
-  ScooterIcon,
-  StorefrontIcon,
-} from "@/components/icons";
+import { ClockIcon, ScooterIcon, StorefrontIcon } from "@/components/icons";
 import { restaurantRepository } from "@/lib/data";
 
 const HERO_IMAGE =
@@ -166,36 +161,7 @@ export default async function LandingPage() {
             <p className="text-fg-muted mb-8 max-w-[420px] text-base leading-relaxed">
               Order faster, track your rider live, and get exclusive app-only deals.
             </p>
-            <div className="flex flex-wrap gap-3.5">
-              <Link
-                href="/app/ios"
-                className="press bg-surface-2 flex items-center gap-2.5 rounded-2xl border-2 border-[var(--color-fg)] px-5.5 py-3 text-white shadow-[0_5px_0_#000] hover:shadow-[0_3px_0_#000]"
-              >
-                <AppleIcon />
-                <span>
-                  <span className="text-fg-subtle block text-[9px] leading-none">
-                    Download on the
-                  </span>
-                  <span className="block text-[15px] leading-snug font-bold">
-                    App Store
-                  </span>
-                </span>
-              </Link>
-              <Link
-                href="/app/android"
-                className="press bg-surface-2 flex items-center gap-2.5 rounded-2xl border-2 border-[var(--color-fg)] px-5.5 py-3 text-white shadow-[0_5px_0_#000] hover:shadow-[0_3px_0_#000]"
-              >
-                <PlayStoreIcon />
-                <span>
-                  <span className="text-fg-subtle block text-[9px] leading-none">
-                    Get it on
-                  </span>
-                  <span className="block text-[15px] leading-snug font-bold">
-                    Google Play
-                  </span>
-                </span>
-              </Link>
-            </div>
+            <AppStoreButtons />
           </div>
 
           <div className="relative z-10 flex-none">

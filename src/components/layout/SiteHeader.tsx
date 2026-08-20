@@ -5,8 +5,12 @@ import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
 import { Logo } from "@/components/Logo";
 import { DeliveryAddressButton } from "@/components/layout/DeliveryAddressButton";
-import { CartIcon, HeartIcon, SearchIcon } from "@/components/icons";
+import { BellIcon, CartIcon, HeartIcon, SearchIcon } from "@/components/icons";
+import { NotificationsDialog } from "@/components/notifications/NotificationsDialog";
+import { useNotifications } from "@/lib/notifications";
 import { useCart } from "@/lib/cart";
+import { useAuth } from "@/lib/auth";
+import { Avatar } from "@/components/account/Avatar";
 import { cn } from "@/lib/cn";
 
 const LINKS = [
@@ -49,6 +53,9 @@ export function SiteHeader({
   const pathname = usePathname();
   const [query, setQuery] = useState(initialQuery);
   const { count, hydrated } = useCart();
+  const { session, hydrated: authHydrated, openAuth } = useAuth();
+  const { unreadCount } = useNotifications();
+  const [notificationsOpen, setNotificationsOpen] = useState(false);
 
   function onSubmit(event: React.FormEvent) {
     event.preventDefault();
@@ -117,6 +124,28 @@ export function SiteHeader({
         )}
 
         <div className="flex flex-none items-center gap-2.5">
+          {/* Notifications belong to an account, so the bell only appears
+              once there's a session to attach them to. */}
+          {session && (
+            <button
+              type="button"
+              onClick={() => setNotificationsOpen(true)}
+              aria-label={
+                unreadCount > 0
+                  ? `Notifications, ${unreadCount} unread`
+                  : "Notifications"
+              }
+              className="bg-surface-alt text-primary relative flex size-9.5 items-center justify-center rounded-full transition-transform duration-150 ease-[var(--ease-out-strong)] active:scale-95"
+            >
+              <BellIcon size={18} />
+              {unreadCount > 0 && (
+                <span className="bg-primary text-canvas absolute -top-0.5 -right-0.5 flex size-4.5 items-center justify-center rounded-full text-[10px] font-extrabold tabular-nums">
+                  {unreadCount}
+                </span>
+              )}
+            </button>
+          )}
+
           <Link
             href="/favourites"
             title="Favourites"
@@ -139,16 +168,40 @@ export function SiteHeader({
             )}
           </Link>
 
-          <Link
-            href="/profile"
-            title="Your profile"
-            aria-label="Your profile"
-            className="bg-surface-2 text-fg flex size-9.5 items-center justify-center rounded-full text-sm font-bold transition-transform duration-150 ease-[var(--ease-out-strong)] active:scale-95"
-          >
-            A
-          </Link>
+          {/* Held blank until the persisted session is readable, so the
+              header doesn't flash "Sign in" at someone who already is. */}
+          {!authHydrated ? (
+            <span className="size-9.5" />
+          ) : session ? (
+            <Link
+              href="/profile"
+              title={`Your profile — ${session.name}`}
+              aria-label={`Your profile, signed in as ${session.name}`}
+              className="flex size-9.5 items-center justify-center rounded-full transition-transform duration-150 ease-[var(--ease-out-strong)] active:scale-95"
+            >
+              <Avatar
+                avatar={session.avatar}
+                initial={session.initial}
+                className="size-9.5"
+                textClassName="text-sm"
+              />
+            </Link>
+          ) : (
+            <button
+              type="button"
+              onClick={() => openAuth("login")}
+              className="press bg-primary text-canvas rounded-full px-4.5 py-2.25 text-[13px] font-extrabold whitespace-nowrap shadow-[0_4px_0_var(--color-primary-deep)] hover:shadow-[0_2px_0_var(--color-primary-deep)]"
+            >
+              Sign in
+            </button>
+          )}
         </div>
       </nav>
+
+      <NotificationsDialog
+        open={notificationsOpen}
+        onClose={() => setNotificationsOpen(false)}
+      />
     </header>
   );
 }

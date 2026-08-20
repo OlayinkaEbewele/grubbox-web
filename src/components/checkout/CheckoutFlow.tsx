@@ -6,6 +6,7 @@ import { useMemo, useState } from "react";
 import { Button, ButtonLink } from "@/components/ui/Button";
 import { Chip } from "@/components/ui/Chip";
 import { EmptyState } from "@/components/ui/EmptyState";
+import { CheckoutSkeleton } from "@/components/checkout/CheckoutSkeleton";
 import { QuantityStepper } from "@/components/ui/QuantityStepper";
 import { CheckIcon, PinIcon, RefreshIcon } from "@/components/icons";
 import {
@@ -68,7 +69,11 @@ export function CheckoutFlow({ restaurants }: CheckoutFlowProps) {
   // Before hydration the cart is empty by definition, so hold the layout
   // rather than flashing the empty state at everyone.
   if (!hydrated) {
-    return <div className="min-h-[60vh]" />;
+    return (
+      <div className="shell max-w-app pb-page-bottom">
+        <CheckoutSkeleton />
+      </div>
+    );
   }
 
   if (lines.length === 0 || !restaurant) {

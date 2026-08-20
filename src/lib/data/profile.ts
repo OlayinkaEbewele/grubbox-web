@@ -74,9 +74,39 @@ export const SAVED_PAYMENTS: SavedPayment[] = [
   },
 ];
 
-export const PROFILE_SETTINGS = [
+/**
+ * `action` rows open a dialog instead of navigating. Promotions is one screen
+ * that never warranted a route of its own.
+ */
+export const PROFILE_SETTINGS: {
+  icon: string;
+  label: string;
+  href?: string;
+  action?: "promotions";
+}[] = [
   { icon: "🔔", label: "Notification preferences", href: "/settings/notifications" },
   { icon: "🔒", label: "Privacy & security", href: "/settings/privacy" },
-  { icon: "🎟️", label: "Promotions & offers", href: "/settings/promotions" },
+  { icon: "🎟️", label: "Promotions & offers", action: "promotions" },
   { icon: "❓", label: "Help center", href: "/help" },
 ];
+
+/**
+ * Preset avatars. There's no upload pipeline behind this yet, so the picker
+ * offers a fixed set rather than pretending a file input would go anywhere.
+ */
+export const AVATAR_PRESETS = [
+  "🧑‍🍳", "🍜", "🌶️", "🥑", "🍕", "🧋", "🍰", "🥘", "🍤", "🧁", "🥗", "🍩",
+] as const;
+
+/** Every Nth completed order earns free delivery on the next one. */
+export const FREE_DELIVERY_EVERY = 5;
+
+export const FREE_DELIVERY_CAVEAT =
+  "Covers the delivery fee only, on orders over ₦2,000. Service fees and tips still apply.";
+
+export function freeDeliveryProgress(totalOrders: number) {
+  const into = totalOrders % FREE_DELIVERY_EVERY;
+  // Landing exactly on the boundary means the reward is banked, not pending.
+  const remaining = into === 0 ? 0 : FREE_DELIVERY_EVERY - into;
+  return { into, remaining, earned: remaining === 0 };
+}

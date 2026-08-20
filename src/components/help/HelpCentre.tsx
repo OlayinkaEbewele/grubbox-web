@@ -8,6 +8,7 @@ import {
   type HelpCategoryId,
 } from "@/lib/data/help";
 import { pluralize } from "@/lib/format";
+import { EmptyState } from "@/components/ui/EmptyState";
 import { cn } from "@/lib/cn";
 
 /** One icon per category, matching the design's line-art set. */
@@ -192,10 +193,12 @@ export function HelpCentre() {
             })}
           </ul>
         ) : (
-          <p className="text-fg-subtle py-10 text-center text-sm">
-            No articles match &ldquo;{query}&rdquo;. Try a different search or
-            contact support below.
-          </p>
+          <EmptyState
+            variant="search"
+            frame="bare"
+            title="No articles found"
+            description={`Nothing matched “${query}”. Try a different search, or contact support below.`}
+          />
         )}
       </section>
     </>

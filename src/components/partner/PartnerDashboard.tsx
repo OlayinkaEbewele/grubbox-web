@@ -11,13 +11,17 @@ import { SettingsView } from "./views/SettingsView";
 import { AlertIcon } from "@/components/icons";
 import {
   allItemsAvailable,
-  INITIAL_PARTNER_MENU,
   INITIAL_PARTNER_ORDERS,
-  QUICK_86_ITEMS,
-  type KitchenStatus,
-  type PartnerMenuItem,
+  QUICK_86_IDS,
   type PartnerOrder,
 } from "@/lib/data/partner";
+import {
+  useAutoAccept,
+  useKitchenStatus,
+  usePartnerAuth,
+  usePartnerMenu,
+} from "@/lib/partner";
+import { PartnerSignedOut } from "./PartnerSignedOut";
 
 /** Seconds a new order is held before auto-accept fires. */
 const AUTO_ACCEPT_DELAY = 2;
@@ -26,13 +30,13 @@ const PREP_WINDOW = 900;
 
 export function PartnerDashboard() {
   const [view, setView] = useState<PartnerView>("dashboard");
+  // The live feed stays in memory: its prep timers tick every second, so
+  // persisting it would mean writing to storage 60 times a minute.
   const [orders, setOrders] = useState<PartnerOrder[]>(INITIAL_PARTNER_ORDERS);
-  const [menu, setMenu] = useState<PartnerMenuItem[]>(INITIAL_PARTNER_MENU);
-  const [kitchenStatus, setKitchenStatus] = useState<KitchenStatus>("open");
-  const [autoAccept, setAutoAccept] = useState(false);
-  const [soldOut, setSoldOut] = useState<Record<string, boolean>>(() =>
-    Object.fromEntries(QUICK_86_ITEMS.map((name) => [name, false])),
-  );
+  const { menu, setAvailable: setItemAvailable } = usePartnerMenu();
+  const { status: kitchenStatus, setStatus: setKitchenStatus } = useKitchenStatus();
+  const { autoAccept, setAutoAccept } = useAutoAccept();
+  const { session, hydrated: authHydrated } = usePartnerAuth();
 
   const [onboardingOpen, setOnboardingOpen] = useState(true);
   const [onboardingDone, setOnboardingDone] = useState(false);
@@ -107,24 +111,16 @@ export function PartnerDashboard() {
     );
   }, []);
 
-  const toggleMenuItem = useCallback((index: number, available: boolean) => {
-    setMenu((current) =>
-      current.map((item, i) => (i === index ? { ...item, available } : item)),
-    );
-  }, []);
-
-  const setItemSoldOut = useCallback((name: string, value: boolean) => {
-    setSoldOut((current) => ({ ...current, [name]: value }));
-    // The quick-86 list and the menu are the same underlying stock, so keep
-    // them in step rather than letting them disagree.
-    setMenu((current) =>
-      current.map((item) =>
-        item.name === name ? { ...item, available: !value } : item,
-      ),
-    );
-  }, []);
+  // Quick 86 is a shortcut into the menu, not a second copy of it. Deriving it
+  // means the panel and the menu can never disagree about what's in stock.
+  const quick86 = menu.filter((item) => QUICK_86_IDS.includes(item.id));
 
   const stepsLeft = 4;
+
+  // After every hook, so the gate can never change hook order between renders.
+  if (!authHydrated || !session) {
+    return <PartnerSignedOut pending={!authHydrated} />;
+  }
 
   return (
     <div className="flex min-h-screen flex-col lg:flex-row">
@@ -165,14 +161,16 @@ export function PartnerDashboard() {
             onKitchenStatusChange={setKitchenStatus}
             autoAccept={autoAccept}
             onAutoAcceptChange={setAutoAccept}
-            soldOut={soldOut}
-            onSoldOutChange={setItemSoldOut}
+            quick86={quick86}
+            onAvailabilityChange={setItemAvailable}
             onAccept={accept}
             onReject={reject}
           />
         )}
         {view === "orders" && <OrdersView orders={orders} />}
-        {view === "menu" && <MenuView menu={menu} onToggle={toggleMenuItem} />}
+        {view === "menu" && (
+          <MenuView menu={menu} onToggle={setItemAvailable} />
+        )}
         {view === "earnings" && <EarningsView />}
         {view === "settings" && <SettingsView />}
       </main>

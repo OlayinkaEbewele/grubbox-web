@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { Panel, StatusBadge } from "@/components/partner/Panel";
 import { Chip } from "@/components/ui/Chip";
+import { EmptyState } from "@/components/ui/EmptyState";
 import {
   courierLabel,
   summarizeItems,
@@ -67,9 +68,13 @@ export function OrdersView({ orders }: { orders: PartnerOrder[] }) {
             ))}
           </ul>
         ) : (
-          <p className="text-fg-subtle p-12 text-center text-sm">
-            No orders in this category.
-          </p>
+          <EmptyState
+            variant="orders"
+            frame="bare"
+            as="h3"
+            title="Nothing here yet"
+            description={`No ${TABS[tab].label.toLowerCase()} orders right now. New orders land here the moment they come in.`}
+          />
         )}
       </Panel>
     </div>

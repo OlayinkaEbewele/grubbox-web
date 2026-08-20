@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { DM_Serif_Display, Plus_Jakarta_Sans } from "next/font/google";
+import { AuthProvider } from "@/lib/auth";
+import { AuthDialogHost } from "@/components/auth/AuthDialog";
 import { CartProvider } from "@/lib/cart";
 import { LocationProvider } from "@/lib/location";
 import "./globals.css";
@@ -29,9 +31,13 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       className={`${jakarta.variable} ${dmSerif.variable} h-full antialiased`}
     >
       <body className="bg-canvas text-fg flex min-h-full flex-col">
-        <LocationProvider>
-          <CartProvider>{children}</CartProvider>
-        </LocationProvider>
+        <AuthProvider>
+          <LocationProvider>
+            <CartProvider>{children}</CartProvider>
+          </LocationProvider>
+          {/* Mounted once so any page can summon it via `openAuth()`. */}
+          <AuthDialogHost />
+        </AuthProvider>
       </body>
     </html>
   );
