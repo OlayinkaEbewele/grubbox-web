@@ -8,14 +8,16 @@ import { CartBar } from "./CartBar";
 import { MenuItemRow } from "./MenuItemRow";
 import { ClockIcon, HeartIcon } from "@/components/icons";
 import { useCart } from "@/lib/cart";
+import { useFavourites } from "@/lib/favourites";
 import { formatNaira } from "@/lib/format";
 import { cn } from "@/lib/cn";
 import type { Restaurant } from "@/lib/types";
 
 export function RestaurantDetail({ restaurant }: { restaurant: Restaurant }) {
-  const [favourite, setFavourite] = useState(false);
   const [activeSection, setActiveSection] = useState(0);
   const { add } = useCart();
+  const { isFavourite, toggle } = useFavourites();
+  const favourite = isFavourite(restaurant.slug);
 
   // Suppresses the scroll spy while a tab click smooth-scrolls, so passing
   // sections don't fight the tab the user just chose.
@@ -100,7 +102,7 @@ export function RestaurantDetail({ restaurant }: { restaurant: Restaurant }) {
 
           <button
             type="button"
-            onClick={() => setFavourite((value) => !value)}
+            onClick={() => toggle(restaurant.slug)}
             aria-pressed={favourite}
             aria-label={
               favourite

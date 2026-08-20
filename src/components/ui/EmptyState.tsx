@@ -85,12 +85,28 @@ const ICONS: Record<EmptyStateVariant, ReactNode> = {
   ),
 };
 
+/**
+ * `card` stands on its own in a page. `bare` drops the frame for the cases
+ * where the empty state fills a container that is already a card — a partner
+ * Panel, or a bordered section — which would otherwise double up the border.
+ */
+type Frame = "card" | "bare";
+
+const FRAMES: Record<Frame, string> = {
+  card: "border-hairline bg-surface rounded-3xl border-2 px-8 py-12",
+  bare: "px-8 py-12",
+};
+
 interface EmptyStateProps {
   variant: EmptyStateVariant;
   title: string;
   description: string;
   /** Optional call to action — a button or link. */
   action?: ReactNode;
+  frame?: Frame;
+  /** Heading level, so an empty state nested under a section heading doesn't
+   *  skip a level in the outline. */
+  as?: "h2" | "h3";
   className?: string;
 }
 
@@ -103,12 +119,15 @@ export function EmptyState({
   title,
   description,
   action,
+  frame = "card",
+  as: Heading = "h2",
   className,
 }: EmptyStateProps) {
   return (
     <div
       className={cn(
-        "border-hairline bg-surface flex flex-col items-center rounded-3xl border-2 px-8 py-12 text-center",
+        "flex flex-col items-center text-center",
+        FRAMES[frame],
         className,
       )}
     >
@@ -118,8 +137,15 @@ export function EmptyState({
         </svg>
       </span>
 
-      <h2 className="font-display text-fg mb-2 text-xl">{title}</h2>
-      <p className="text-fg-subtle mb-6 max-w-70 text-sm leading-relaxed">
+      <Heading className="font-display text-fg mb-2 text-xl">{title}</Heading>
+      {/* The gap belongs to the action, not the copy — without it, an empty
+          state with no call to action ends on 24px of dead space. */}
+      <p
+        className={cn(
+          "text-fg-subtle max-w-70 text-sm leading-relaxed",
+          action ? "mb-6" : undefined,
+        )}
+      >
         {description}
       </p>
 

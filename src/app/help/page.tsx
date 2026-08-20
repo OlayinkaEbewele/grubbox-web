@@ -14,7 +14,7 @@ export const metadata = {
 export default function HelpPage() {
   return (
     <>
-      <SiteHeader />
+      <SiteHeader showSearch={false} />
 
       <main className="flex-1">
         <div className="shell max-w-page pt-page-top">

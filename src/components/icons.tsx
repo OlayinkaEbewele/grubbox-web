@@ -282,6 +282,25 @@ export function ChevronDownIcon({ size = 12, ...props }: IconProps) {
   );
 }
 
+export function BellIcon({ size = 18, ...props }: IconProps) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" {...props}>
+      <path
+        d="M6 10a6 6 0 0 1 12 0c0 3 1 5 2 6H4c1-1 2-3 2-6z"
+        stroke="currentColor"
+        strokeWidth="1.8"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M10 20a2 2 0 0 0 4 0"
+        stroke="currentColor"
+        strokeWidth="1.8"
+        strokeLinecap="round"
+      />
+    </svg>
+  );
+}
+
 export function AlertIcon({ size = 18, ...props }: IconProps) {
   return (
     <Icon size={size} {...props}>

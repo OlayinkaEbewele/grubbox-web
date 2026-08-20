@@ -35,8 +35,8 @@ interface DashboardViewProps {
   onKitchenStatusChange: (status: KitchenStatus) => void;
   autoAccept: boolean;
   onAutoAcceptChange: (value: boolean) => void;
-  soldOut: Record<string, boolean>;
-  onSoldOutChange: (name: string, value: boolean) => void;
+  quick86: PartnerMenuItem[];
+  onAvailabilityChange: (id: string, available: boolean) => void;
   onAccept: (id: string) => void;
   onReject: (id: string) => void;
 }
@@ -48,8 +48,8 @@ export function DashboardView({
   onKitchenStatusChange,
   autoAccept,
   onAutoAcceptChange,
-  soldOut,
-  onSoldOutChange,
+  quick86,
+  onAvailabilityChange,
   onAccept,
   onReject,
 }: DashboardViewProps) {
@@ -352,23 +352,24 @@ export function DashboardView({
             Quick 86 — mark sold out today
           </h2>
           <ul className="flex flex-col gap-2.5">
-            {Object.keys(soldOut).map((name) => (
+            {quick86.map((item) => (
               <li
-                key={name}
+                key={item.id}
                 className="bg-surface-3 flex items-center justify-between gap-3 rounded-xl p-3 px-3.5"
               >
                 <span
                   className={cn(
                     "text-[13.5px] font-bold",
-                    soldOut[name] ? "text-fg-subtle line-through" : "text-fg",
+                    item.available ? "text-fg" : "text-fg-subtle line-through",
                   )}
                 >
-                  {name}
+                  {item.name}
                 </span>
+                {/* The switch reads "sold out", so it's the inverse of stock. */}
                 <Toggle
-                  checked={soldOut[name]}
-                  onChange={(value) => onSoldOutChange(name, value)}
-                  label={`Mark ${name} sold out`}
+                  checked={!item.available}
+                  onChange={(soldOut) => onAvailabilityChange(item.id, !soldOut)}
+                  label={`Mark ${item.name} sold out`}
                   size="sm"
                   tone="danger"
                 />

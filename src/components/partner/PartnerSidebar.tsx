@@ -9,6 +9,7 @@ import {
   ListIcon,
 } from "@/components/icons";
 import { cn } from "@/lib/cn";
+import { usePartnerAuth } from "@/lib/partner";
 
 export const PARTNER_VIEWS = [
   { id: "dashboard", label: "Dashboard", Icon: GridIcon },
@@ -59,6 +60,29 @@ export function PartnerSidebar({ view, onSelect }: PartnerSidebarProps) {
           );
         })}
       </nav>
+
+      <SignOutRow />
     </aside>
+  );
+}
+
+/** Sits at the foot of the rail on desktop, inline on small screens. */
+function SignOutRow() {
+  const { session, signOut } = usePartnerAuth();
+  if (!session) return null;
+
+  return (
+    <div className="border-hairline mt-auto hidden border-t pt-4 lg:block">
+      <p className="text-fg-subtle mb-2 px-3 text-[11.5px] font-bold">
+        {session.restaurantName}
+      </p>
+      <button
+        type="button"
+        onClick={signOut}
+        className="text-fg-muted hover:bg-surface-3 hover:text-fg flex w-full items-center gap-3 rounded-xl px-3 py-2.75 text-sm font-extrabold transition-colors duration-150"
+      >
+        🚪 Sign out
+      </button>
+    </div>
   );
 }

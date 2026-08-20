@@ -10,7 +10,7 @@ export const metadata = {
 export default function ProfilePage() {
   return (
     <>
-      <SiteHeader variant="app" />
+      <SiteHeader variant="app" showSearch={false} />
 
       <main className="shell max-w-narrow flex-1 pt-page-top pb-page-bottom">
         <Breadcrumbs

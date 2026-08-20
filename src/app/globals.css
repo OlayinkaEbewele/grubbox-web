@@ -54,6 +54,11 @@
   /* Hairline border used across every card and panel */
   --color-hairline: rgba(255, 255, 255, 0.08);
 
+  /* Skeleton fill. Translucent rather than a fixed grey because skeletons sit
+     on canvas, surface, and surface-3 alike — a solid colour that reads on one
+     of those disappears against the others. */
+  --color-skeleton: rgba(255, 255, 255, 0.08);
+
   /* Height of the shared site header, so sticky sub-navs can offset by it. */
   --header-h: 76px;
 
@@ -156,6 +161,33 @@
   @media (width >= 64rem) {
     .shell {
       padding-inline: calc(var(--spacing) * 14);
+    }
+  }
+
+  /* Skeleton shimmer. A sweep rather than a pulse: a pulse reads as "this
+     control is disabled", a sweep reads as "content is on its way". */
+  .shimmer {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .shimmer::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    transform: translateX(-100%);
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(255, 255, 255, 0.06) 50%,
+      transparent 100%
+    );
+    animation: shimmer 1500ms var(--ease-in-out-strong) infinite;
+  }
+
+  @keyframes shimmer {
+    to {
+      transform: translateX(100%);
     }
   }
 
@@ -308,6 +340,13 @@
   .pop-in,
   .rider-pulse {
     animation: none;
+  }
+
+  /* The skeleton block still communicates "loading" by shape alone, so the
+     sweep can go entirely rather than flashing once. */
+  .shimmer::after {
+    animation: none;
+    opacity: 0;
   }
 
   /* Hold the bars at full height rather than mid-scale, so the indicator is

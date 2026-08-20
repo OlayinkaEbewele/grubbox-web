@@ -31,10 +31,53 @@ export interface PartnerOrder {
   time?: string;
 }
 
+export const MENU_SECTIONS = ["Mains", "Sides", "Drinks", "Desserts"] as const;
+export type MenuSectionName = (typeof MENU_SECTIONS)[number];
+
+/**
+ * A choice within an option group, priced as a delta on the dish. Zero is a
+ * normal value — "Regular" size costs nothing extra but is still a choice.
+ */
+export interface MenuOptionChoice {
+  id: string;
+  name: string;
+  priceDelta: Naira;
+}
+
+/**
+ * A modifier group on a dish. `min`/`max` carry the selection rule:
+ * min 1 makes the group required, max 1 makes it a radio rather than
+ * checkboxes.
+ */
+export interface MenuOptionGroup {
+  id: string;
+  name: string;
+  min: number;
+  max: number;
+  choices: MenuOptionChoice[];
+}
+
 export interface PartnerMenuItem {
+  /** Stable across renames — options and orders reference this, not the name. */
+  id: string;
   name: string;
   price: Naira;
   available: boolean;
+  section: MenuSectionName;
+  description?: string;
+  optionGroups: MenuOptionGroup[];
+}
+
+export function isRequired(group: MenuOptionGroup): boolean {
+  return group.min > 0;
+}
+
+/** "Required · pick 1", "Optional · up to 3" — the rule in one line. */
+export function optionRuleLabel(group: MenuOptionGroup): string {
+  const prefix = isRequired(group) ? "Required" : "Optional";
+  if (group.max === 1) return `${prefix} · pick 1`;
+  if (group.min === group.max) return `${prefix} · pick ${group.min}`;
+  return `${prefix} · up to ${group.max}`;
 }
 
 export interface Payout {
@@ -107,21 +150,97 @@ export const INITIAL_PARTNER_ORDERS: PartnerOrder[] = [
 ];
 
 export const INITIAL_PARTNER_MENU: PartnerMenuItem[] = [
-  { name: "Jollof Rice & Chicken", price: 3200, available: true },
-  { name: "Fried Plantain", price: 800, available: true },
-  { name: "Suya Skewers", price: 2500, available: true },
-  { name: "Pepper Soup", price: 3800, available: false },
-  { name: "Chapman", price: 1500, available: true },
-  { name: "Egusi Soup & Pounded Yam", price: 4200, available: true },
+  {
+    id: "dish-jollof",
+    name: "Jollof Rice & Chicken",
+    price: 3200,
+    available: true,
+    section: "Mains",
+    description: "Smoky party jollof with grilled chicken.",
+    optionGroups: [
+      {
+        id: "grp-jollof-size",
+        name: "Size",
+        min: 1,
+        max: 1,
+        choices: [
+          { id: "opt-regular", name: "Regular", priceDelta: 0 },
+          { id: "opt-large", name: "Large", priceDelta: 800 },
+        ],
+      },
+      {
+        id: "grp-jollof-addons",
+        name: "Add-ons",
+        min: 0,
+        max: 3,
+        choices: [
+          { id: "opt-extra-chicken", name: "Extra chicken", priceDelta: 1200 },
+          { id: "opt-plantain", name: "Fried plantain", priceDelta: 800 },
+          { id: "opt-moimoi", name: "Moi moi", priceDelta: 600 },
+        ],
+      },
+    ],
+  },
+  {
+    id: "dish-plantain",
+    name: "Fried Plantain",
+    price: 800,
+    available: true,
+    section: "Sides",
+    optionGroups: [],
+  },
+  {
+    id: "dish-suya",
+    name: "Suya Skewers",
+    price: 2500,
+    available: true,
+    section: "Mains",
+    description: "Beef skewers rolled in yaji spice.",
+    optionGroups: [
+      {
+        id: "grp-suya-heat",
+        name: "Heat",
+        min: 1,
+        max: 1,
+        choices: [
+          { id: "opt-mild", name: "Mild", priceDelta: 0 },
+          { id: "opt-medium", name: "Medium", priceDelta: 0 },
+          { id: "opt-hot", name: "Hot", priceDelta: 0 },
+        ],
+      },
+    ],
+  },
+  {
+    id: "dish-pepper-soup",
+    name: "Pepper Soup",
+    price: 3800,
+    available: false,
+    section: "Mains",
+    optionGroups: [],
+  },
+  {
+    id: "dish-chapman",
+    name: "Chapman",
+    price: 1500,
+    available: true,
+    section: "Drinks",
+    optionGroups: [],
+  },
+  {
+    id: "dish-egusi",
+    name: "Egusi Soup & Pounded Yam",
+    price: 4200,
+    available: true,
+    section: "Mains",
+    optionGroups: [],
+  },
 ];
 
-/** The short list a kitchen is most likely to 86 mid-service. */
-export const QUICK_86_ITEMS = [
-  "Jollof Rice & Chicken",
-  "Suya Skewers",
-  "Chapman",
-  "Egusi Soup & Pounded Yam",
-];
+/**
+ * The short list a kitchen is most likely to 86 mid-service, by dish id — not
+ * name, so renaming a dish in the editor can't quietly detach it from here.
+ */
+export const QUICK_86_IDS = ["dish-jollof", "dish-suya", "dish-chapman", "dish-egusi"];
 
 export const PAYOUTS: Payout[] = [
   { date: "Aug 1, 2026", bank: "GTBank · 0123456789", amount: 1840200 },
@@ -229,6 +348,9 @@ export function allItemsAvailable(
   order: PartnerOrder,
   menu: PartnerMenuItem[],
 ): boolean {
+  // Orders still carry item names (that's what the customer ordered), so the
+  // lookup is by name — but the menu's own identity is its id, so a rename
+  // only ever affects matching, never which dish a toggle refers to.
   const availability = new Map(menu.map((item) => [item.name, item.available]));
   return order.items.every((item) => availability.get(item.name) !== false);
 }

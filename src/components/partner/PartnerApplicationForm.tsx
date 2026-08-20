@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { Button, ButtonLink } from "@/components/ui/Button";
+import { Field, SelectField } from "@/components/ui/Field";
 import { CheckIcon } from "@/components/icons";
 
 const CITIES = ["Lagos", "Abuja", "Port Harcourt"];
@@ -19,8 +20,8 @@ export function PartnerApplicationForm() {
         </span>
         <h1 className="font-display mb-3 text-[28px]">Application received!</h1>
         <p className="text-fg-subtle mb-7 text-[15px] leading-relaxed">
-          Thanks, {ownerName}. Our partnerships team will review {restaurantName} and
-          reach out within 2 business days.
+          Thanks, {ownerName}. Our partnerships team will review{" "}
+          {restaurantName} and reach out within 2 business days.
         </p>
         <ButtonLink href="/partner/dashboard" size="lg">
           Go to dashboard
@@ -31,7 +32,9 @@ export function PartnerApplicationForm() {
 
   return (
     <div className="w-full max-w-focus px-6 pt-4 pb-page-bottom">
-      <h1 className="font-display mb-2 text-[32px]">Apply to become a partner</h1>
+      <h1 className="font-display mb-2 text-[32px]">
+        Apply to become a partner
+      </h1>
       <p className="text-fg-subtle mb-8 text-[15px]">
         Tell us about your restaurant — takes less than 5 minutes.
       </p>
@@ -80,23 +83,13 @@ export function PartnerApplicationForm() {
           />
         </div>
 
-        <label>
-          <span className="text-fg-muted mb-1.5 block text-[13px] font-bold">
-            City
-          </span>
-          <select
-            name="city"
-            required
-            defaultValue={CITIES[0]}
-            className="border-hairline bg-surface-3 text-fg focus:border-primary w-full rounded-[14px] border-2 px-4 py-3.25 text-sm outline-none transition-colors duration-150"
-          >
-            {CITIES.map((city) => (
-              <option key={city} value={city}>
-                {city}
-              </option>
-            ))}
-          </select>
-        </label>
+        <SelectField
+          label="City"
+          name="city"
+          required
+          defaultValue={CITIES[0]}
+          options={CITIES}
+        />
 
         <Field
           label="Cuisine type"
@@ -113,25 +106,5 @@ export function PartnerApplicationForm() {
         </p>
       </form>
     </div>
-  );
-}
-
-interface FieldProps extends React.ComponentProps<"input"> {
-  label: string;
-  className?: string;
-}
-
-function Field({ label, className, ...props }: FieldProps) {
-  return (
-    <label className={className}>
-      <span className="text-fg-muted mb-1.5 block text-[13px] font-bold">
-        {label}
-      </span>
-      <input
-        type="text"
-        className="border-hairline bg-surface-3 text-fg placeholder:text-fg-subtle focus:border-primary w-full rounded-[14px] border-2 px-4 py-3.25 text-sm outline-none transition-colors duration-150"
-        {...props}
-      />
-    </label>
   );
 }

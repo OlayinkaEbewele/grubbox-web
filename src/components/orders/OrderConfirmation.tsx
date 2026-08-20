@@ -1,6 +1,7 @@
 "use client";
 
 import { ButtonLink } from "@/components/ui/Button";
+import { OrderConfirmationSkeleton } from "@/components/orders/OrderSkeletons";
 import { useOrder, useOrdersHydrated } from "@/lib/orders";
 import { formatNaira } from "@/lib/format";
 import { cn } from "@/lib/cn";
@@ -12,7 +13,13 @@ export function OrderConfirmation({ orderId }: { orderId: string }) {
   const order = useOrder(orderId);
   const hydrated = useOrdersHydrated();
 
-  if (!hydrated) return <div className="min-h-[60vh]" />;
+  if (!hydrated) {
+    return (
+      <div className="mx-auto w-full max-w-focus px-6 pt-6 pb-page-bottom">
+        <OrderConfirmationSkeleton />
+      </div>
+    );
+  }
 
   if (!order) {
     return (
